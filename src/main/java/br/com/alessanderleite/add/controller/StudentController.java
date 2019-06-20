@@ -46,6 +46,14 @@ public class StudentController {
 		return "redirect:list";
 	}
 	
+	@GetMapping("edit/{id}")
+	public String showUpdateForm(@PathVariable("id") long id, Model model) {
+		Student student = studentRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid student Id: " + id));
+		model.addAttribute("student", student);
+		return "update-student";
+	}
+	
 	@PostMapping("update/{id}")
 	public String updateStudent(@PathVariable("id") long id, @Valid Student student, BindingResult result, Model model) {
 		if (result.hasErrors()) {
